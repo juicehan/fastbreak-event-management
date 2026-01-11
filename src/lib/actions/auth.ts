@@ -3,7 +3,6 @@
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
 
 const authSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -76,13 +75,12 @@ export async function signIn(
 
 export async function signInWithGoogle(): Promise<void> {
   const supabase = await createClient();
-  const headersList = await headers();
-  const origin = headersList.get("origin") || "";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${origin}/auth/callback`,
+      redirectTo: `${siteUrl}/auth/callback`,
     },
   });
 

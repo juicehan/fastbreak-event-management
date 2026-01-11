@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d42ec5f-e587-4a13-8712-9eb0cbc61c25" name="Changes" comment="server auth actions for signup, signin, and signout" />
+    <list default="true" id="2d42ec5f-e587-4a13-8712-9eb0cbc61c25" name="Changes" comment="login and signup pages with form components">
+      <change beforePath="$PROJECT_DIR$/src/lib/actions/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/actions/auth.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -66,7 +68,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1768143291670</updated>
-      <workItem from="1768143295711" duration="5004000" />
+      <workItem from="1768143295711" duration="6846000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit with README.md and PLANNER.md">
       <option name="closed" value="true" />
@@ -124,7 +126,31 @@
       <option name="project" value="LOCAL" />
       <updated>1768148817098</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="setting up callback routes (OAuth) and auth middleware">
+      <option name="closed" value="true" />
+      <created>1768149422307</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1768149422307</updated>
+    </task>
+    <task id="LOCAL-00009" summary="layout for auth pages">
+      <option name="closed" value="true" />
+      <created>1768149450206</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1768149450206</updated>
+    </task>
+    <task id="LOCAL-00010" summary="login and signup pages with form components">
+      <option name="closed" value="true" />
+      <created>1768149513286</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1768149513286</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -149,6 +175,9 @@
     <MESSAGE value="add database types &amp; zod validation schemas" />
     <MESSAGE value="add generic server action wrapper with validation and auth" />
     <MESSAGE value="server auth actions for signup, signin, and signout" />
-    <option name="LAST_COMMIT_MESSAGE" value="server auth actions for signup, signin, and signout" />
+    <MESSAGE value="setting up callback routes (OAuth) and auth middleware" />
+    <MESSAGE value="layout for auth pages" />
+    <MESSAGE value="login and signup pages with form components" />
+    <option name="LAST_COMMIT_MESSAGE" value="login and signup pages with form components" />
   </component>
 </project>

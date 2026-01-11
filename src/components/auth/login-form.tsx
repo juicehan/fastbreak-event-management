@@ -63,12 +63,7 @@ export function LoginForm() {
 
   async function handleGoogleSignIn() {
     setIsGoogleLoading(true);
-    try {
-      await signInWithGoogle();
-    } catch {
-      toast.error("Could not sign in with Google");
-      setIsGoogleLoading(false);
-    }
+    await signInWithGoogle();
   }
 
   return (

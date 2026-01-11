@@ -1,22 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { LogOut, Plus } from "lucide-react";
-import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { signOut } from "@/lib/actions/auth";
 
 export function Header() {
-  const router = useRouter();
-
   async function handleSignOut() {
-    try {
-      await signOut();
-    } catch {
-      toast.error("Failed to sign out");
-    }
+    await signOut();
   }
 
   return (

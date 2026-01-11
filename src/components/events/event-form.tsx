@@ -118,8 +118,8 @@ export function EventForm({ event, mode }: EventFormProps) {
 
         if (result.success) {
           toast.success("Event created successfully");
-          router.push("/dashboard");
           router.refresh();
+          router.push("/dashboard");
         } else {
           toast.error(result.error);
         }
@@ -135,8 +135,8 @@ export function EventForm({ event, mode }: EventFormProps) {
 
         if (result.success) {
           toast.success("Event updated successfully");
-          router.push("/dashboard");
           router.refresh();
+          router.push("/dashboard");
         } else {
           toast.error(result.error);
         }

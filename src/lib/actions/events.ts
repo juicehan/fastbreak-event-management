@@ -1,28 +1,41 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { createAction } from "./safe-action";
+import { validateAndGetUser } from "./safe-action";
+import { formatZodErrors, type ActionResult } from "./utils";
 import {
   createEventSchema,
   updateEventSchema,
   searchEventsSchema,
   type Event,
   type EventWithVenues,
+  type Venue,
   type CreateEventInput,
   type UpdateEventInput,
   type SearchEventsInput,
 } from "@/types/database";
 import { z } from "zod";
 
-export const getEvents = createAction(
-  searchEventsSchema,
-  async (input: SearchEventsInput, userId: string): Promise<EventWithVenues[]> => {
+export async function getEvents(
+  input: SearchEventsInput
+): Promise<ActionResult<EventWithVenues[]>> {
+  try {
+    const validation = searchEventsSchema.safeParse(input);
+    if (!validation.success) {
+      return { success: false, error: formatZodErrors(validation.error) };
+    }
+
+    const authResult = await validateAndGetUser();
+    if ("error" in authResult) {
+      return { success: false, error: authResult.error };
+    }
+
     const supabase = await createClient();
 
     let query = supabase
       .from("events")
       .select("*")
-      .eq("user_id", userId)
+      .eq("user_id", authResult.userId)
       .order("date_time", { ascending: true });
 
     if (input.query) {
@@ -36,7 +49,7 @@ export const getEvents = createAction(
     const { data: events, error } = await query;
 
     if (error) {
-      throw new Error(error.message);
+      return { success: false, error: error.message };
     }
 
     // Fetch venues for each event
@@ -49,7 +62,7 @@ export const getEvents = createAction(
 
         const venueIds = eventVenues?.map((ev) => ev.venue_id) || [];
 
-        let venues: { id: string; name: string; address: string | null; created_at: string }[] = [];
+        let venues: Venue[] = [];
         if (venueIds.length > 0) {
           const { data: venueData } = await supabase
             .from("venues")
@@ -62,31 +75,45 @@ export const getEvents = createAction(
       })
     );
 
-    return eventsWithVenues;
+    return { success: true, data: eventsWithVenues };
+  } catch (error) {
+    console.error("getEvents error:", error);
+    return { success: false, error: "An unexpected error occurred" };
   }
-);
+}
 
 const getEventByIdSchema = z.object({
   id: z.string().uuid("Invalid event ID"),
 });
 
-export const getEvent = createAction(
-  getEventByIdSchema,
-  async (input: { id: string }, userId: string): Promise<EventWithVenues | null> => {
+export async function getEvent(
+  input: { id: string }
+): Promise<ActionResult<EventWithVenues | null>> {
+  try {
+    const validation = getEventByIdSchema.safeParse(input);
+    if (!validation.success) {
+      return { success: false, error: formatZodErrors(validation.error) };
+    }
+
+    const authResult = await validateAndGetUser();
+    if ("error" in authResult) {
+      return { success: false, error: authResult.error };
+    }
+
     const supabase = await createClient();
 
     const { data: event, error } = await supabase
       .from("events")
       .select("*")
       .eq("id", input.id)
-      .eq("user_id", userId)
+      .eq("user_id", authResult.userId)
       .single();
 
     if (error) {
       if (error.code === "PGRST116") {
-        return null; // Not found
+        return { success: true, data: null };
       }
-      throw new Error(error.message);
+      return { success: false, error: error.message };
     }
 
     // Fetch venues for the event
@@ -97,7 +124,7 @@ export const getEvent = createAction(
 
     const venueIds = eventVenues?.map((ev) => ev.venue_id) || [];
 
-    let venues: { id: string; name: string; address: string | null; created_at: string }[] = [];
+    let venues: Venue[] = [];
     if (venueIds.length > 0) {
       const { data: venueData } = await supabase
         .from("venues")
@@ -106,19 +133,33 @@ export const getEvent = createAction(
       venues = venueData || [];
     }
 
-    return { ...event, venues };
+    return { success: true, data: { ...event, venues } };
+  } catch (error) {
+    console.error("getEvent error:", error);
+    return { success: false, error: "An unexpected error occurred" };
   }
-);
+}
 
-export const createEvent = createAction(
-  createEventSchema,
-  async (input: CreateEventInput, userId: string): Promise<Event> => {
+export async function createEvent(
+  input: CreateEventInput
+): Promise<ActionResult<Event>> {
+  try {
+    const validation = createEventSchema.safeParse(input);
+    if (!validation.success) {
+      return { success: false, error: formatZodErrors(validation.error) };
+    }
+
+    const authResult = await validateAndGetUser();
+    if ("error" in authResult) {
+      return { success: false, error: authResult.error };
+    }
+
     const supabase = await createClient();
 
     const { data: event, error } = await supabase
       .from("events")
       .insert({
-        user_id: userId,
+        user_id: authResult.userId,
         name: input.name,
         sport_type: input.sport_type,
         date_time: input.date_time,
@@ -128,7 +169,7 @@ export const createEvent = createAction(
       .single();
 
     if (error) {
-      throw new Error(error.message);
+      return { success: false, error: error.message };
     }
 
     // Link venues if provided
@@ -143,17 +184,31 @@ export const createEvent = createAction(
         .insert(eventVenues);
 
       if (venueError) {
-        throw new Error(venueError.message);
+        return { success: false, error: venueError.message };
       }
     }
 
-    return event;
+    return { success: true, data: event };
+  } catch (error) {
+    console.error("createEvent error:", error);
+    return { success: false, error: "An unexpected error occurred" };
   }
-);
+}
 
-export const updateEvent = createAction(
-  updateEventSchema,
-  async (input: UpdateEventInput, userId: string): Promise<Event> => {
+export async function updateEvent(
+  input: UpdateEventInput
+): Promise<ActionResult<Event>> {
+  try {
+    const validation = updateEventSchema.safeParse(input);
+    if (!validation.success) {
+      return { success: false, error: formatZodErrors(validation.error) };
+    }
+
+    const authResult = await validateAndGetUser();
+    if ("error" in authResult) {
+      return { success: false, error: authResult.error };
+    }
+
     const supabase = await createClient();
 
     const { id, venue_ids, ...updateData } = input;
@@ -167,12 +222,12 @@ export const updateEvent = createAction(
       .from("events")
       .update({ ...filteredData, updated_at: new Date().toISOString() })
       .eq("id", id)
-      .eq("user_id", userId)
+      .eq("user_id", authResult.userId)
       .select()
       .single();
 
     if (error) {
-      throw new Error(error.message);
+      return { success: false, error: error.message };
     }
 
     // Update venues if provided
@@ -192,34 +247,51 @@ export const updateEvent = createAction(
           .insert(eventVenues);
 
         if (venueError) {
-          throw new Error(venueError.message);
+          return { success: false, error: venueError.message };
         }
       }
     }
 
-    return event;
+    return { success: true, data: event };
+  } catch (error) {
+    console.error("updateEvent error:", error);
+    return { success: false, error: "An unexpected error occurred" };
   }
-);
+}
 
 const deleteEventSchema = z.object({
   id: z.string().uuid("Invalid event ID"),
 });
 
-export const deleteEvent = createAction(
-  deleteEventSchema,
-  async (input: { id: string }, userId: string): Promise<{ success: boolean }> => {
+export async function deleteEvent(
+  input: { id: string }
+): Promise<ActionResult<{ success: boolean }>> {
+  try {
+    const validation = deleteEventSchema.safeParse(input);
+    if (!validation.success) {
+      return { success: false, error: formatZodErrors(validation.error) };
+    }
+
+    const authResult = await validateAndGetUser();
+    if ("error" in authResult) {
+      return { success: false, error: authResult.error };
+    }
+
     const supabase = await createClient();
 
     const { error } = await supabase
       .from("events")
       .delete()
       .eq("id", input.id)
-      .eq("user_id", userId);
+      .eq("user_id", authResult.userId);
 
     if (error) {
-      throw new Error(error.message);
+      return { success: false, error: error.message };
     }
 
-    return { success: true };
+    return { success: true, data: { success: true } };
+  } catch (error) {
+    console.error("deleteEvent error:", error);
+    return { success: false, error: "An unexpected error occurred" };
   }
-);
+}

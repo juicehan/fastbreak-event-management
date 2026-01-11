@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d42ec5f-e587-4a13-8712-9eb0cbc61c25" name="Changes" comment="google OAuth fix for localhost" />
+    <list default="true" id="2d42ec5f-e587-4a13-8712-9eb0cbc61c25" name="Changes" comment="event and venue server actions">
+      <change beforePath="$PROJECT_DIR$/src/lib/actions/events.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/actions/events.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/actions/safe-action.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/actions/safe-action.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/actions/venues.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/actions/venues.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -66,7 +70,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1768143291670</updated>
-      <workItem from="1768143295711" duration="7810000" />
+      <workItem from="1768143295711" duration="9267000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit with README.md and PLANNER.md">
       <option name="closed" value="true" />
@@ -156,7 +160,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768151074066</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="event and venue server actions">
+      <option name="closed" value="true" />
+      <created>1768152132562</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1768152132562</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,6 +197,7 @@
     <MESSAGE value="layout for auth pages" />
     <MESSAGE value="login and signup pages with form components" />
     <MESSAGE value="google OAuth fix for localhost" />
-    <option name="LAST_COMMIT_MESSAGE" value="google OAuth fix for localhost" />
+    <MESSAGE value="event and venue server actions" />
+    <option name="LAST_COMMIT_MESSAGE" value="event and venue server actions" />
   </component>
 </project>

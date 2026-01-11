@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d42ec5f-e587-4a13-8712-9eb0cbc61c25" name="Changes" comment="initial commit with README.md and PLANNER.md">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fastbreak-event-management.iml" beforeDir="false" />
-    </list>
+    <list default="true" id="2d42ec5f-e587-4a13-8712-9eb0cbc61c25" name="Changes" comment="initial setup completion" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,7 +66,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1768143291670</updated>
-      <workItem from="1768143295711" duration="1187000" />
+      <workItem from="1768143295711" duration="1616000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit with README.md and PLANNER.md">
       <option name="closed" value="true" />
@@ -82,7 +76,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768143805403</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="initial setup completion">
+      <option name="closed" value="true" />
+      <created>1768144652846</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1768144652846</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -101,6 +103,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit with README.md and PLANNER.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit with README.md and PLANNER.md" />
+    <MESSAGE value="initial setup completion" />
+    <option name="LAST_COMMIT_MESSAGE" value="initial setup completion" />
   </component>
 </project>

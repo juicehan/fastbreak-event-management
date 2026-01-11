@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d42ec5f-e587-4a13-8712-9eb0cbc61c25" name="Changes" comment="add generic server action wrapper with validation and auth">
-      <change afterPath="$PROJECT_DIR$/src/lib/actions/auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="2d42ec5f-e587-4a13-8712-9eb0cbc61c25" name="Changes" comment="server auth actions for signup, signin, and signout" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,7 +66,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1768143291670</updated>
-      <workItem from="1768143295711" duration="4606000" />
+      <workItem from="1768143295711" duration="5004000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit with README.md and PLANNER.md">
       <option name="closed" value="true" />
@@ -119,7 +116,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768148699637</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="server auth actions for signup, signin, and signout">
+      <option name="closed" value="true" />
+      <created>1768148817098</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1768148817098</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -143,6 +148,7 @@
     <MESSAGE value="add supabase client utilities for server, client, middleware" />
     <MESSAGE value="add database types &amp; zod validation schemas" />
     <MESSAGE value="add generic server action wrapper with validation and auth" />
-    <option name="LAST_COMMIT_MESSAGE" value="add generic server action wrapper with validation and auth" />
+    <MESSAGE value="server auth actions for signup, signin, and signout" />
+    <option name="LAST_COMMIT_MESSAGE" value="server auth actions for signup, signin, and signout" />
   </component>
 </project>

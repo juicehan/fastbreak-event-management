@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d42ec5f-e587-4a13-8712-9eb0cbc61c25" name="Changes" comment="login and signup pages with form components">
-      <change beforePath="$PROJECT_DIR$/src/lib/actions/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/actions/auth.ts" afterDir="false" />
-    </list>
+    <list default="true" id="2d42ec5f-e587-4a13-8712-9eb0cbc61c25" name="Changes" comment="google OAuth fix for localhost" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -68,7 +66,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1768143291670</updated>
-      <workItem from="1768143295711" duration="6846000" />
+      <workItem from="1768143295711" duration="7810000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit with README.md and PLANNER.md">
       <option name="closed" value="true" />
@@ -150,7 +148,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768149513286</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="google OAuth fix for localhost">
+      <option name="closed" value="true" />
+      <created>1768151074066</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1768151074066</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -178,6 +184,7 @@
     <MESSAGE value="setting up callback routes (OAuth) and auth middleware" />
     <MESSAGE value="layout for auth pages" />
     <MESSAGE value="login and signup pages with form components" />
-    <option name="LAST_COMMIT_MESSAGE" value="login and signup pages with form components" />
+    <MESSAGE value="google OAuth fix for localhost" />
+    <option name="LAST_COMMIT_MESSAGE" value="google OAuth fix for localhost" />
   </component>
 </project>

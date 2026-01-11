@@ -4,10 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d42ec5f-e587-4a13-8712-9eb0cbc61c25" name="Changes" comment="event and venue server actions">
-      <change beforePath="$PROJECT_DIR$/src/lib/actions/events.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/actions/events.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/actions/safe-action.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/actions/safe-action.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/actions/venues.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/actions/venues.ts" afterDir="false" />
+    <list default="true" id="2d42ec5f-e587-4a13-8712-9eb0cbc61c25" name="Changes" comment="adjusted for event search VS selecting sports type in the dropdown menu">
+      <change afterPath="$PROJECT_DIR$/src/app/(dashboard)/dashboard/error.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/(dashboard)/dashboard/loading.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/(dashboard)/events/[id]/edit/error.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/(dashboard)/events/[id]/edit/loading.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/(dashboard)/events/[id]/edit/not-found.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/(dashboard)/events/new/loading.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/not-found.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/login-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/login-form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/signup-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/signup-form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layout/header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/header.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +78,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1768143291670</updated>
-      <workItem from="1768143295711" duration="9267000" />
+      <workItem from="1768143295711" duration="13955000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit with README.md and PLANNER.md">
       <option name="closed" value="true" />
@@ -168,7 +176,55 @@
       <option name="project" value="LOCAL" />
       <updated>1768152132562</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="minor adjustments for async function (used for &quot;use server&quot; implementations)">
+      <option name="closed" value="true" />
+      <created>1768154678194</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1768154678194</updated>
+    </task>
+    <task id="LOCAL-00014" summary="shared actions are here">
+      <option name="closed" value="true" />
+      <created>1768154861210</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1768154861210</updated>
+    </task>
+    <task id="LOCAL-00015" summary="dashboard actions with event list, filters, and delete">
+      <option name="closed" value="true" />
+      <created>1768154899420</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1768154899420</updated>
+    </task>
+    <task id="LOCAL-00016" summary="CRUD operations for events and venue">
+      <option name="closed" value="true" />
+      <created>1768155473248</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1768155473248</updated>
+    </task>
+    <task id="LOCAL-00017" summary="handling invalid banner notifications with signout and google login">
+      <option name="closed" value="true" />
+      <created>1768158502929</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1768158502929</updated>
+    </task>
+    <task id="LOCAL-00018" summary="adjusted for event search VS selecting sports type in the dropdown menu">
+      <option name="closed" value="true" />
+      <created>1768167365483</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1768167365483</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -198,6 +254,12 @@
     <MESSAGE value="login and signup pages with form components" />
     <MESSAGE value="google OAuth fix for localhost" />
     <MESSAGE value="event and venue server actions" />
-    <option name="LAST_COMMIT_MESSAGE" value="event and venue server actions" />
+    <MESSAGE value="minor adjustments for async function (used for &quot;use server&quot; implementations)" />
+    <MESSAGE value="shared actions are here" />
+    <MESSAGE value="dashboard actions with event list, filters, and delete" />
+    <MESSAGE value="CRUD operations for events and venue" />
+    <MESSAGE value="handling invalid banner notifications with signout and google login" />
+    <MESSAGE value="adjusted for event search VS selecting sports type in the dropdown menu" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjusted for event search VS selecting sports type in the dropdown menu" />
   </component>
 </project>

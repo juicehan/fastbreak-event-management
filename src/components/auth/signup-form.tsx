@@ -11,6 +11,7 @@ import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { GoogleIcon } from "@/components/icons/google";
 import {
   Form,
   FormControl,
@@ -146,7 +147,11 @@ export function SignupForm() {
           onClick={handleGoogleSignIn}
           disabled={isGoogleLoading}
         >
-          {isGoogleLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {isGoogleLoading ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <GoogleIcon className="mr-2 h-4 w-4" />
+          )}
           Continue with Google
         </Button>
       </CardContent>

@@ -2,6 +2,7 @@
 
 import { Search } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -16,6 +17,7 @@ interface EventFiltersProps {
   searchQuery: string;
   sportType: string;
   onSearchChange: (value: string) => void;
+  onSearchSubmit: () => void;
   onSportTypeChange: (value: string) => void;
   isPending?: boolean;
 }
@@ -24,21 +26,34 @@ export function EventFilters({
   searchQuery,
   sportType,
   onSearchChange,
+  onSearchSubmit,
   onSportTypeChange,
   isPending,
 }: EventFiltersProps) {
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter") {
+      onSearchSubmit();
+    }
+  }
+
   return (
     <div className="flex flex-col gap-4 sm:flex-row">
-      <div className="relative flex-1">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
-        <Input
-          type="text"
-          placeholder="Search events..."
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-          className="pl-9"
-          disabled={isPending}
-        />
+      <div className="flex flex-1 gap-2">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+          <Input
+            type="text"
+            placeholder="Search events..."
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="pl-9"
+            disabled={isPending}
+          />
+        </div>
+        <Button onClick={onSearchSubmit} disabled={isPending}>
+          Search
+        </Button>
       </div>
       <Select value={sportType} onValueChange={onSportTypeChange} disabled={isPending}>
         <SelectTrigger className="w-full sm:w-[180px]">

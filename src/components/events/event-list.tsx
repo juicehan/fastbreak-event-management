@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useEffect, useCallback } from "react";
+import { useState, useTransition, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { CalendarX } from "lucide-react";
 
@@ -18,16 +18,18 @@ interface EventListProps {
 export function EventList({ initialEvents }: EventListProps) {
   const [events, setEvents] = useState<EventWithVenues[]>(initialEvents);
   const [searchQuery, setSearchQuery] = useState("");
+  const [appliedSearchQuery, setAppliedSearchQuery] = useState("");
   const [sportType, setSportType] = useState("all");
   const [isPending, startTransition] = useTransition();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [eventToDelete, setEventToDelete] = useState<EventWithVenues | null>(null);
+  const isInitialMount = useRef(true);
 
-  const fetchEvents = useCallback(() => {
+  function fetchEvents(query: string, sport: string) {
     startTransition(async () => {
       const result = await getEvents({
-        query: searchQuery || undefined,
-        sport_type: sportType === "all" ? undefined : sportType,
+        query: query || undefined,
+        sport_type: sport === "all" ? undefined : sport,
       });
 
       if (result.success) {
@@ -36,15 +38,25 @@ export function EventList({ initialEvents }: EventListProps) {
         toast.error(result.error);
       }
     });
-  }, [searchQuery, sportType]);
+  }
 
+  // Auto-filter when sport type changes
   useEffect(() => {
-    const debounceTimer = setTimeout(() => {
-      fetchEvents();
-    }, 300);
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    fetchEvents(appliedSearchQuery, sportType);
+  }, [sportType, appliedSearchQuery]);
 
-    return () => clearTimeout(debounceTimer);
-  }, [fetchEvents]);
+  function handleSearchSubmit() {
+    setAppliedSearchQuery(searchQuery);
+    fetchEvents(searchQuery, sportType);
+  }
+
+  function handleSportTypeChange(value: string) {
+    setSportType(value);
+  }
 
   function handleDeleteClick(id: string) {
     const event = events.find((e) => e.id === id);
@@ -75,7 +87,8 @@ export function EventList({ initialEvents }: EventListProps) {
         searchQuery={searchQuery}
         sportType={sportType}
         onSearchChange={setSearchQuery}
-        onSportTypeChange={setSportType}
+        onSearchSubmit={handleSearchSubmit}
+        onSportTypeChange={handleSportTypeChange}
         isPending={isPending}
       />
 
@@ -100,7 +113,7 @@ export function EventList({ initialEvents }: EventListProps) {
             No events found
           </h3>
           <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-            {searchQuery || sportType !== "all"
+            {appliedSearchQuery || sportType !== "all"
               ? "Try adjusting your search or filters"
               : "Get started by creating a new event"}
           </p>

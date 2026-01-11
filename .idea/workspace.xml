@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d42ec5f-e587-4a13-8712-9eb0cbc61c25" name="Changes" comment="add supabase client utilities for server, client, middleware">
-      <change afterPath="$PROJECT_DIR$/src/types/database.ts" afterDir="false" />
+    <list default="true" id="2d42ec5f-e587-4a13-8712-9eb0cbc61c25" name="Changes" comment="add generic server action wrapper with validation and auth">
+      <change afterPath="$PROJECT_DIR$/src/lib/actions/auth.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,7 +69,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1768143291670</updated>
-      <workItem from="1768143295711" duration="2906000" />
+      <workItem from="1768143295711" duration="4606000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit with README.md and PLANNER.md">
       <option name="closed" value="true" />
@@ -103,7 +103,23 @@
       <option name="project" value="LOCAL" />
       <updated>1768146190972</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="add database types &amp; zod validation schemas">
+      <option name="closed" value="true" />
+      <created>1768146318763</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1768146318763</updated>
+    </task>
+    <task id="LOCAL-00006" summary="add generic server action wrapper with validation and auth">
+      <option name="closed" value="true" />
+      <created>1768148699637</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1768148699637</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,6 +141,8 @@
     <MESSAGE value="initial setup completion" />
     <MESSAGE value="schema setup for supabase" />
     <MESSAGE value="add supabase client utilities for server, client, middleware" />
-    <option name="LAST_COMMIT_MESSAGE" value="add supabase client utilities for server, client, middleware" />
+    <MESSAGE value="add database types &amp; zod validation schemas" />
+    <MESSAGE value="add generic server action wrapper with validation and auth" />
+    <option name="LAST_COMMIT_MESSAGE" value="add generic server action wrapper with validation and auth" />
   </component>
 </project>

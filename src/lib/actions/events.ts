@@ -7,6 +7,7 @@ import {
   createEventSchema,
   updateEventSchema,
   searchEventsSchema,
+  SPORT_TYPES,
   type Event,
   type EventWithVenues,
   type Venue,
@@ -43,7 +44,13 @@ export async function getEvents(
     }
 
     if (input.sport_type) {
-      query = query.eq("sport_type", input.sport_type);
+      if (input.sport_type === "Other") {
+        // "Other" means any sport type not in the predefined list (excluding "Other" itself)
+        const standardTypes = SPORT_TYPES.filter((t) => t !== "Other");
+        query = query.not("sport_type", "in", `(${standardTypes.join(",")})`);
+      } else {
+        query = query.eq("sport_type", input.sport_type);
+      }
     }
 
     const { data: events, error } = await query;
@@ -292,6 +299,40 @@ export async function deleteEvent(
     return { success: true, data: { success: true } };
   } catch (error) {
     console.error("deleteEvent error:", error);
+    return { success: false, error: "An unexpected error occurred" };
+  }
+}
+
+export async function getCustomSportTypes(): Promise<ActionResult<string[]>> {
+  try {
+    const authResult = await validateAndGetUser();
+    if ("error" in authResult) {
+      return { success: false, error: authResult.error };
+    }
+
+    const supabase = await createClient();
+
+    // Get all distinct sport types from user's events
+    const { data: events, error } = await supabase
+      .from("events")
+      .select("sport_type")
+      .eq("user_id", authResult.userId);
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    // Filter to only custom sport types (not in predefined list)
+    const predefinedTypes = new Set(SPORT_TYPES);
+    const customTypes = [...new Set(
+      (events || [])
+        .map((e) => e.sport_type)
+        .filter((type) => !predefinedTypes.has(type as typeof SPORT_TYPES[number]))
+    )].sort();
+
+    return { success: true, data: customTypes };
+  } catch (error) {
+    console.error("getCustomSportTypes error:", error);
     return { success: false, error: "An unexpected error occurred" };
   }
 }

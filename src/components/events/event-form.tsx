@@ -37,7 +37,7 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { createEvent, updateEvent } from "@/lib/actions/events";
+import { createEvent, updateEvent, getCustomSportTypes } from "@/lib/actions/events";
 import { getVenues, createVenue, updateVenue } from "@/lib/actions/venues";
 import { SPORT_TYPES, type EventWithVenues, type Venue } from "@/types/database";
 
@@ -82,6 +82,13 @@ export function EventForm({ event, mode }: EventFormProps) {
   const [isEditingVenue, setIsEditingVenue] = useState(false);
   const [editVenueDialogOpen, setEditVenueDialogOpen] = useState(false);
 
+  // Custom sport type state
+  const [customSportTypes, setCustomSportTypes] = useState<string[]>([]);
+  const [customSportInput, setCustomSportInput] = useState("");
+  const [showCustomSportInput, setShowCustomSportInput] = useState(
+    event?.sport_type && !SPORT_TYPES.includes(event.sport_type as typeof SPORT_TYPES[number])
+  );
+
   // Parse existing event date/time
   const existingDate = event?.date_time
     ? format(new Date(event.date_time), "yyyy-MM-dd")
@@ -102,14 +109,25 @@ export function EventForm({ event, mode }: EventFormProps) {
   });
 
   useEffect(() => {
-    async function loadVenues() {
-      const result = await getVenues();
-      if (result.success) {
-        setVenues(result.data);
+    async function loadData() {
+      const [venuesResult, customSportsResult] = await Promise.all([
+        getVenues(),
+        getCustomSportTypes(),
+      ]);
+      if (venuesResult.success) {
+        setVenues(venuesResult.data);
+      }
+      if (customSportsResult.success) {
+        setCustomSportTypes(customSportsResult.data);
       }
     }
-    loadVenues();
-  }, []);
+    loadData();
+
+    // Initialize custom sport input if editing an event with a custom sport type
+    if (event?.sport_type && !SPORT_TYPES.includes(event.sport_type as typeof SPORT_TYPES[number])) {
+      setCustomSportInput(event.sport_type);
+    }
+  }, [event?.sport_type]);
 
   async function onSubmit(values: EventFormValues) {
     // Validate venues
@@ -267,8 +285,18 @@ export function EventForm({ event, mode }: EventFormProps) {
                 <FormItem>
                   <FormLabel>Sport Type</FormLabel>
                   <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    onValueChange={(value) => {
+                      if (value === "Other") {
+                        setShowCustomSportInput(true);
+                        // Set the form value to the custom input or empty
+                        field.onChange(customSportInput || "");
+                      } else {
+                        setShowCustomSportInput(false);
+                        setCustomSportInput("");
+                        field.onChange(value);
+                      }
+                    }}
+                    value={showCustomSportInput ? "Other" : field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -283,6 +311,39 @@ export function EventForm({ event, mode }: EventFormProps) {
                       ))}
                     </SelectContent>
                   </Select>
+
+                  {showCustomSportInput && (
+                    <div className="space-y-3 pt-2">
+                      <Input
+                        placeholder="Enter custom sport type"
+                        value={customSportInput}
+                        onChange={(e) => {
+                          setCustomSportInput(e.target.value);
+                          field.onChange(e.target.value);
+                        }}
+                      />
+                      {customSportTypes.length > 0 && (
+                        <div className="space-y-1">
+                          <p className="text-sm text-zinc-500">Previously used:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {customSportTypes.map((sport) => (
+                              <Badge
+                                key={sport}
+                                variant="outline"
+                                className="cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                                onClick={() => {
+                                  setCustomSportInput(sport);
+                                  field.onChange(sport);
+                                }}
+                              >
+                                {sport}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                   <FormMessage />
                 </FormItem>
               )}

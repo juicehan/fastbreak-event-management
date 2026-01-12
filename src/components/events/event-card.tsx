@@ -31,9 +31,18 @@ export function EventCard({ event, onDelete }: EventCardProps) {
           <span>{formattedDate}</span>
         </div>
         {event.venues.length > 0 && (
-          <div className="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-            <MapPin className="h-4 w-4 mt-0.5" />
-            <span>{event.venues.map((v) => v.name).join(", ")}</span>
+          <div className="space-y-1">
+            {event.venues.map((venue) => (
+              <div key={venue.id} className="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+                <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
+                <div>
+                  <span className="font-medium">{venue.name}</span>
+                  {venue.address && (
+                    <span className="text-zinc-500 dark:text-zinc-500"> - {venue.address}</span>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         )}
         {event.description && (

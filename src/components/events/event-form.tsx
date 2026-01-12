@@ -7,11 +7,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
 import { format } from "date-fns";
-import { Loader2, Plus, X } from "lucide-react";
+import { Loader2, Pencil, Plus, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import {
   Form,
   FormControl,
@@ -37,7 +38,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { createEvent, updateEvent } from "@/lib/actions/events";
-import { getVenues, createVenue } from "@/lib/actions/venues";
+import { getVenues, createVenue, updateVenue } from "@/lib/actions/venues";
 import { SPORT_TYPES, type EventWithVenues, type Venue } from "@/types/database";
 
 const eventFormSchema = z.object({
@@ -72,6 +73,14 @@ export function EventForm({ event, mode }: EventFormProps) {
   const [newVenueAddress, setNewVenueAddress] = useState("");
   const [isAddingVenue, setIsAddingVenue] = useState(false);
   const [venueDialogOpen, setVenueDialogOpen] = useState(false);
+  const [venueError, setVenueError] = useState<string | null>(null);
+
+  // Edit venue state
+  const [editingVenue, setEditingVenue] = useState<Venue | null>(null);
+  const [editVenueName, setEditVenueName] = useState("");
+  const [editVenueAddress, setEditVenueAddress] = useState("");
+  const [isEditingVenue, setIsEditingVenue] = useState(false);
+  const [editVenueDialogOpen, setEditVenueDialogOpen] = useState(false);
 
   // Parse existing event date/time
   const existingDate = event?.date_time
@@ -103,6 +112,13 @@ export function EventForm({ event, mode }: EventFormProps) {
   }, []);
 
   async function onSubmit(values: EventFormValues) {
+    // Validate venues
+    if (selectedVenueIds.length === 0) {
+      setVenueError("At least one venue is required");
+      return;
+    }
+    setVenueError(null);
+
     setIsLoading(true);
     try {
       const dateTime = new Date(`${values.date}T${values.time}`).toISOString();
@@ -149,11 +165,15 @@ export function EventForm({ event, mode }: EventFormProps) {
   }
 
   function toggleVenue(venueId: string) {
-    setSelectedVenueIds((prev) =>
-      prev.includes(venueId)
+    setSelectedVenueIds((prev) => {
+      const newIds = prev.includes(venueId)
         ? prev.filter((id) => id !== venueId)
-        : [...prev, venueId]
-    );
+        : [...prev, venueId];
+      if (newIds.length > 0) {
+        setVenueError(null);
+      }
+      return newIds;
+    });
   }
 
   async function handleAddVenue() {
@@ -163,12 +183,13 @@ export function EventForm({ event, mode }: EventFormProps) {
     try {
       const result = await createVenue({
         name: newVenueName.trim(),
-        address: newVenueAddress.trim() || null,
+        address: newVenueAddress.trim(),
       });
 
       if (result.success) {
         setVenues((prev) => [...prev, result.data]);
         setSelectedVenueIds((prev) => [...prev, result.data.id]);
+        setVenueError(null);
         setNewVenueName("");
         setNewVenueAddress("");
         setVenueDialogOpen(false);
@@ -180,6 +201,43 @@ export function EventForm({ event, mode }: EventFormProps) {
       toast.error("Failed to add venue");
     } finally {
       setIsAddingVenue(false);
+    }
+  }
+
+  function openEditVenueDialog(venue: Venue) {
+    setEditingVenue(venue);
+    setEditVenueName(venue.name);
+    setEditVenueAddress(venue.address || "");
+    setEditVenueDialogOpen(true);
+  }
+
+  async function handleEditVenue() {
+    if (!editingVenue || !editVenueName.trim() || !editVenueAddress.trim()) return;
+
+    setIsEditingVenue(true);
+    try {
+      const result = await updateVenue({
+        id: editingVenue.id,
+        name: editVenueName.trim(),
+        address: editVenueAddress.trim(),
+      });
+
+      if (result.success) {
+        setVenues((prev) =>
+          prev.map((v) => (v.id === editingVenue.id ? result.data : v))
+        );
+        setEditVenueDialogOpen(false);
+        setEditingVenue(null);
+        setEditVenueName("");
+        setEditVenueAddress("");
+        toast.success("Venue updated successfully");
+      } else {
+        toast.error(result.error);
+      }
+    } catch {
+      toast.error("Failed to update venue");
+    } finally {
+      setIsEditingVenue(false);
     }
   }
 
@@ -281,7 +339,7 @@ export function EventForm({ event, mode }: EventFormProps) {
 
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <FormLabel>Venues (Optional)</FormLabel>
+                <FormLabel>Venues</FormLabel>
                 <Dialog open={venueDialogOpen} onOpenChange={setVenueDialogOpen}>
                   <DialogTrigger asChild>
                     <Button type="button" variant="outline" size="sm">
@@ -295,7 +353,7 @@ export function EventForm({ event, mode }: EventFormProps) {
                     </DialogHeader>
                     <div className="space-y-4 pt-4">
                       <div className="space-y-2">
-                        <FormLabel>Venue Name</FormLabel>
+                        <Label>Venue Name</Label>
                         <Input
                           placeholder="Enter venue name"
                           value={newVenueName}
@@ -303,7 +361,7 @@ export function EventForm({ event, mode }: EventFormProps) {
                         />
                       </div>
                       <div className="space-y-2">
-                        <FormLabel>Address (Optional)</FormLabel>
+                        <Label>Address</Label>
                         <Input
                           placeholder="Enter address"
                           value={newVenueAddress}
@@ -313,7 +371,7 @@ export function EventForm({ event, mode }: EventFormProps) {
                       <Button
                         type="button"
                         onClick={handleAddVenue}
-                        disabled={!newVenueName.trim() || isAddingVenue}
+                        disabled={!newVenueName.trim() || !newVenueAddress.trim() || isAddingVenue}
                         className="w-full"
                       >
                         {isAddingVenue && (
@@ -331,12 +389,19 @@ export function EventForm({ event, mode }: EventFormProps) {
                   {selectedVenueIds.map((id) => {
                     const venue = venues.find((v) => v.id === id);
                     return venue ? (
-                      <Badge key={id} variant="secondary" className="gap-1">
+                      <Badge key={id} variant="secondary" className="gap-1 pr-1">
                         {venue.name}
                         <button
                           type="button"
+                          onClick={() => openEditVenueDialog(venue)}
+                          className="ml-1 hover:text-blue-500"
+                        >
+                          <Pencil className="h-3 w-3" />
+                        </button>
+                        <button
+                          type="button"
                           onClick={() => toggleVenue(id)}
-                          className="ml-1 hover:text-red-500"
+                          className="hover:text-red-500"
                         >
                           <X className="h-3 w-3" />
                         </button>
@@ -363,6 +428,10 @@ export function EventForm({ event, mode }: EventFormProps) {
                     ))}
                 </div>
               )}
+
+              {venueError && (
+                <p className="text-sm font-medium text-destructive">{venueError}</p>
+              )}
             </div>
 
             <div className="flex gap-4">
@@ -381,6 +450,44 @@ export function EventForm({ event, mode }: EventFormProps) {
             </div>
           </form>
         </Form>
+
+        {/* Edit Venue Dialog */}
+        <Dialog open={editVenueDialogOpen} onOpenChange={setEditVenueDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit Venue</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 pt-4">
+              <div className="space-y-2">
+                <Label>Venue Name</Label>
+                <Input
+                  placeholder="Enter venue name"
+                  value={editVenueName}
+                  onChange={(e) => setEditVenueName(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Address</Label>
+                <Input
+                  placeholder="Enter address"
+                  value={editVenueAddress}
+                  onChange={(e) => setEditVenueAddress(e.target.value)}
+                />
+              </div>
+              <Button
+                type="button"
+                onClick={handleEditVenue}
+                disabled={!editVenueName.trim() || !editVenueAddress.trim() || isEditingVenue}
+                className="w-full"
+              >
+                {isEditingVenue && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                Update Venue
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </CardContent>
     </Card>
   );

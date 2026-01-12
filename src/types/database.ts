@@ -66,7 +66,7 @@ export const createEventSchema = z.object({
     .nullable(),
   venue_ids: z
     .array(z.string().uuid())
-    .optional(),
+    .min(1, "At least one venue is required"),
 });
 
 export const updateEventSchema = createEventSchema.partial().extend({
@@ -80,9 +80,12 @@ export const createVenueSchema = z.object({
     .max(255, "Venue name must be less than 255 characters"),
   address: z
     .string()
-    .max(500, "Address must be less than 500 characters")
-    .optional()
-    .nullable(),
+    .min(1, "Address is required")
+    .max(500, "Address must be less than 500 characters"),
+});
+
+export const updateVenueSchema = createVenueSchema.extend({
+  id: z.string().uuid("Invalid venue ID"),
 });
 
 export const searchEventsSchema = z.object({
@@ -94,4 +97,5 @@ export const searchEventsSchema = z.object({
 export type CreateEventInput = z.infer<typeof createEventSchema>;
 export type UpdateEventInput = z.infer<typeof updateEventSchema>;
 export type CreateVenueInput = z.infer<typeof createVenueSchema>;
+export type UpdateVenueInput = z.infer<typeof updateVenueSchema>;
 export type SearchEventsInput = z.infer<typeof searchEventsSchema>;

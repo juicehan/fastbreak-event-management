@@ -57,6 +57,9 @@ CREATE POLICY "Anyone can view venues" ON venues
 CREATE POLICY "Authenticated users can create venues" ON venues
   FOR INSERT TO authenticated WITH CHECK (true);
 
+CREATE POLICY "Authenticated users can update venues" ON venues
+  FOR UPDATE TO authenticated USING (true);
+
 -- Policies for event_venues
 CREATE POLICY "Users can view own event venues" ON event_venues
   FOR SELECT USING (
